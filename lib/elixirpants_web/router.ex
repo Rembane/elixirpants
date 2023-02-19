@@ -18,6 +18,13 @@ defmodule ElixirpantsWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
+    live "/attendees", AttendeeLive.Index, :index
+    live "/attendees/new", AttendeeLive.Index, :new
+    live "/attendees/:id/edit", AttendeeLive.Index, :edit
+
+    live "/attendees/:id", AttendeeLive.Show, :show
+    live "/attendees/:id/show/edit", AttendeeLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

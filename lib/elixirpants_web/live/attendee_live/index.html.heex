@@ -1,0 +1,42 @@
+<h1>Listing Attendees</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.attendee_index_path(@socket, :index)}>
+    <.live_component
+      module={ElixirpantsWeb.AttendeeLive.FormComponent}
+      id={@attendee.id || :new}
+      title={@page_title}
+      action={@live_action}
+      attendee={@attendee}
+      return_to={Routes.attendee_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>CID</th>
+      <th>Name</th>
+      <th>Nick</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="attendees">
+    <%= for attendee <- @attendees do %>
+      <tr id={"attendee-#{attendee.id}"}>
+        <td><%= attendee.cid %></td>
+        <td><%= attendee.name %></td>
+        <td><%= attendee.nick %></td>
+        <td>
+          <!-- TODO! Real buttons! -->
+          <%= live_redirect "Show", to: Routes.attendee_show_path(@socket, :show, attendee) %>,
+          <.link patch={Routes.attendee_index_path(@socket, :edit, attendee)}>Edit</.link>,
+          <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: attendee.id, data: [confirm: "Are you sure?"] %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><.link patch={Routes.attendee_index_path(@socket, :new)}>New Attendee</.link></span>

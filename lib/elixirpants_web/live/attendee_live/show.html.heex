@@ -1,0 +1,26 @@
+<h1>Show Attendee</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.attendee_show_path(@socket, :show, @attendee)}>
+    <.live_component
+      module={ElixirpantsWeb.AttendeeLive.FormComponent}
+      id={@attendee.id}
+      title={@page_title}
+      action={@live_action}
+      attendee={@attendee}
+      return_to={Routes.attendee_show_path(@socket, :show, @attendee)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @attendee.name %>
+  </li>
+
+</ul>
+
+<span><.link patch={Routes.attendee_show_path(@socket, :edit, @attendee)} class="button">"Edit"</.link></span> |
+<span><%= live_redirect "Back", to: Routes.attendee_index_path(@socket, :index) %></span>
